@@ -3,7 +3,7 @@ import pandas as pan
 import pydeck
 from pathlib import Path
 
-script_path = Path(file).resolve()
+script_path = Path(__file__).resolve()
 repo_root = script_path.parents[1]
 csv_path = repo_root / "country-capital-lat-long-population.csv"
 
