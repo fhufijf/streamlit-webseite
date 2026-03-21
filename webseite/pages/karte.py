@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pan
 import pydeck
 
-hauptstädte = pan.read_csv("country-capital-lat-long-population.csv")
+hauptstädte = pan.read_csv("./country-capital-lat-long-population.csv")
 
 hauptstädte["size"] = hauptstädte.Population / 10
 
