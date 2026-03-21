@@ -1,8 +1,13 @@
 import streamlit as st
 import pandas as pan
 import pydeck
+from pathlib import Path
 
-hauptstädte = pan.read_csv("../country-capital-lat-long-population.csv")
+script_path = Path(file).resolve()
+repo_root = script_path.parents[1]
+csv_path = repo_root / "country-capital-lat-long-population.csv"
+
+hauptstädte = pan.read_csv(csv_path)
 
 hauptstädte["size"] = hauptstädte.Population / 10
 
