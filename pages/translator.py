@@ -6,7 +6,7 @@ import streamlit as st
 import time
 import streamlit.components.v1 as components
 
-st.title("🌐 Kostenloses Wörterbuch & Übersetzer")
+st.title("Kostenloses Übersetzer")
 
 def translate(text, source, target):
     url = "https://api.mymemory.translated.net/get"
