@@ -7,25 +7,30 @@ import time
 import streamlit.components.v1 as components
 
 st.title("Kostenloses Übersetzer")
+st.subheader("(Das API ist ein bisschen kaputt)")
 
-def translate(text, source, target):
-    url = "https://api.mymemory.translated.net/get"
-    params = {
-        "q": text,
-        "langpair": f"{source}|{target}"
-    }
-    response = requests.get(url, params=params)
-    return response.json()["responseData"]["translatedText"]
+st.divider()
 
-# Sprachauswahl
-source_lang = st.selectbox("Ausgangssprache", ["de", "en", "fr", "es", "it"])
-target_lang = st.selectbox("Zielsprache", ["de", "en", "fr", "es", "it"])
+with st.echo(code_location="below"):
+    def translate(text, source, target):
+        url = "https://api.mymemory.translated.net/get"
+        params = {
+            "q": text,
+            "langpair": f"{source}|{target}"
+        }
+        response = requests.get(url, params=params)
+        return response.json()["responseData"]["translatedText"]
 
-# Wort eingeben
-wort = st.text_input("Das Wort, das du übersetzen willst:")
+    # Sprachauswahl
+    source_lang = st.selectbox("Ausgangssprache", ["de", "en", "fr", "es", "it"])
+    target_lang = st.selectbox("Zielsprache", ["de", "en", "fr", "es", "it"])
 
-if wort:
-    with st.spinner("Übersetzen..."):
-        translated = translate(wort, source_lang, target_lang)
+    # Wort eingeben
+    wort = st.text_input("Das Wort, das du übersetzen willst:")
 
-        st.write(translated)
+    if wort:
+        with st.spinner("Übersetzen..."):
+            translated = translate(wort, source_lang, target_lang)
+
+            st.write(translated)
+    st.divider()

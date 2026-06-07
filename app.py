@@ -1,42 +1,55 @@
 import streamlit as st
 
-#Wenn h nicht in session_state, session_state ist gleich null
-#session_state ist ein speicher, wenn man ein variable am ende dieser speicher macht wird dieser variable gespeichert
-if 'h' not in st.session_state:
-    st.session_state.h = 0
+st.set_page_config(
+    page_title="Niels Linke",
+    page_icon="🏠",
+    layout="centered",
+    initial_sidebar_state="collapsed",
+)
 
-#-----------------------------------------------------------------------------
-p = "primary"
-s = "secondary"
-t = "tertiary"
-#-----------------------------------------------------------------------------
+col1, col2 = st.columns(2)
 
-st.title("Ein Webseite von")
-st.header("Niels Linke")
+with col1:
+    st.subheader("Eine Webseite von")
+    st.title("Niels Linke")
 
-with st.expander("Sachen die ich gemacht habe"):
-    if st.button("Apps", type=t, key="1"):
-        st.page_link("pages/rechner.py", label="Rechner")
-        st.page_link("pages/DVD_video.py", label="DVD video")
-        st.page_link("pages/Zahlen_raten_spiel.py", label="Zahlen raten spielt")
-        st.page_link("pages/rick_roll.py", label="Not a rick roll")
-        st.page_link("pages/jokes.py", label="5 Jokes")
-        st.page_link("pages/tictactoe.py", label="Tictac toe")
-        st.page_link("pages/password_generator.py", label="Passwort Generator")
-        st.page_link("pages/mini_youtube.py", label="Mini Youtube")
-        st.page_link("pages/translator.py", label="Translator")
-        st.page_link("pages/karte.py", label="Karte")
-        st.page_link("pages/würfel.py", label="Würfel")
-        st.page_link("pages/crash.py", label="Crash")
-        st.page_link("pages/quiz.py", label="Quiz")
-#       st.page_link("pages/", label="")
+    st.space("large")
 
-with st.expander("Sachen die ich machen will"):
-    st.write("pintrest")
-    st.write("geometredash")
-    st.write("custem Minecraft launcher, link: " \
-    "https://minecraft-launcher-lib.readthedocs.io/_/downloads/en/latest/pdf/")
-    st.write("minecraft texturepack")
+    st.subheader("Programmierer.")
+    st.subheader("Bald Architekt.")
 
-with st.container():
-    st.write("https://docs.streamlit.io/")
+with col2:
+    st.image("https://avatars.githubusercontent.com/u/269984691?s=400&u=26258dc96717b93dd863bb2e14e099ebcbf2a043&v=4", caption="Niels' Github Profil")
+
+
+st.divider()
+st.header("Meine Projekte")
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.page_link("pages/Rechner.py", label="🧮 Rechner")
+    st.page_link("pages/DVD_video.py", label="📀 DVD Video")
+    st.page_link("pages/Zahlen_raten_spiel.py", label="🔢 Zahlen raten")
+    st.page_link("pages/Rick_Roll.py", label="🎵 Not a Rick Roll")
+    st.page_link("pages/Quiz.py", label="❓ Quiz")
+
+with col2:
+    st.page_link("pages/Jokes.py", label="😂 5 Jokes")
+    st.page_link("pages/Tic_Tac_Toe.py", label="❌⭕ Tic Tac Toe")
+    st.page_link("pages/Passwort_Generator.py", label="🔐 Passwort Generator")
+    st.page_link("pages/Mini_Youtube.py", label="📺 Mini YouTube")
+    st.page_link("pages/Timer.py", label="⏱️ Timer")
+
+with col3:
+    st.page_link("pages/Translator.py", label="🌍 Translator")
+    st.page_link("pages/Karte.py", label="🗺️ Karte")
+    st.page_link("pages/Würfel.py", label="🎲 Würfel")
+    st.page_link("pages/Crash.py", label="💥 Crash")
+
+
+
+
+
+#    st.write("geometredash")
+#    st.write("minecraft texturepack")

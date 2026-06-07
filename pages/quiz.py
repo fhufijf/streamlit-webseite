@@ -2,13 +2,11 @@ import streamlit as st
 import json
 import pandas as pd
 
-# Session State initialisieren
-if "answers" not in st.session_state:
-    st.session_state.answers = {}  # Speichert die gewählte Antwort pro Frage-Index
+st.title("Quiz")
+st.subheader("Man kann die Anzahl fragen ändern!")
+st.write("(Drück die Optionen um Fragen zu lösen.)")
 
-richtig = 0
-falsch = 0
-#---------------------------------------------------
+st.divider()
 
 quiz = """[
     {
@@ -2312,85 +2310,91 @@ quiz = """[
   }
 ]"""
 
-quiz_py = json.loads(quiz)
+  # Session State initialisieren
 
-st.title("Quiz")
+with st.echo(code_location="below"):
+  if "answers" not in st.session_state:
+      st.session_state.answers = {}  # Speichert die gewählte Antwort pro Frage-Index
 
-if "resultate" not in st.session_state:
-    st.session_state.resultate = [None] * len(quiz_py)
+  richtig = 0
+  falsch = 0
 
-anzahl_fragen = st.slider("Wie viel Fragem wilst du beantworten?: ", min_value=1, max_value=len(quiz_py))
+  quiz_py = json.loads(quiz)
 
-def optionen(i, frage_data):
-    global richtig, falsch
-    st.write("Das ist Frage", i + 1 ,"von", anzahl_fragen)
+  if "resultate" not in st.session_state:
+      st.session_state.resultate = [None] * len(quiz_py)
 
-    st.write(f"**Robot:** {frage_data['frage']}")
-    
-    # Prüfen, ob für diese Frage bereits eine Antwort existiert
-    hat_geantwortet = i in st.session_state.answers
-    
-    # Optionen anzeigen (deaktiviert, wenn schon geantwortet wurde)
-    options = frage_data["optionen"]
-    selection = st.pills(
-        "Optionen:", 
-        options, 
-        selection_mode="single", 
-        disabled=hat_geantwortet, 
-        key=f"pills_{i}"
-    )
-    
-    # Wenn gerade etwas ausgewählt wurde, im Session State speichern und neu laden
-    if selection is not None and not hat_geantwortet:
-        st.session_state.answers[i] = selection
-        st.rerun()
-        
-    # Feedback anzeigen basierend auf dem gespeicherten Zustand
-    if hat_geantwortet:
-        gespeicherte_auswahl = st.session_state.answers[i]
-        if gespeicherte_auswahl == frage_data["antwort"]:
-            st.success(f"Robot: Richtig!!! Deine Antwort: {gespeicherte_auswahl}")
-            richtig += 1
-            st.session_state.resultate[i] = 1
-        else:
-            st.error(f"Robot: Falsch!!! Richtige Antwort wäre: {frage_data['antwort']}")
-            falsch += 1
-            st.session_state.resultate[i] = -1
-            
-    st.markdown("---")
+  anzahl_fragen = st.slider("Wie viel Fragem wilst du beantworten?: ", min_value=1, max_value=len(quiz_py))
 
-# Quiz-Schleife
-for i, fragen in enumerate(quiz_py):
-    if i < anzahl_fragen:
-      optionen(i, fragen)
+  def optionen(i, frage_data):
+      global richtig, falsch
+      st.write("Das ist Frage", i + 1 ,"von", anzahl_fragen)
+
+      st.write(f"**Robot:** {frage_data['frage']}")
+      
+      # Prüfen, ob für diese Frage bereits eine Antwort existiert
+      hat_geantwortet = i in st.session_state.answers
+      
+      # Optionen anzeigen (deaktiviert, wenn schon geantwortet wurde)
+      options = frage_data["optionen"]
+      selection = st.pills(
+          "Optionen:", 
+          options, 
+          selection_mode="single", 
+          disabled=hat_geantwortet, 
+          key=f"pills_{i}"
+      )
+      
+      # Wenn gerade etwas ausgewählt wurde, im Session State speichern und neu laden
+      if selection is not None and not hat_geantwortet:
+          st.session_state.answers[i] = selection
+          st.rerun()
+          
+      # Feedback anzeigen basierend auf dem gespeicherten Zustand
+      if hat_geantwortet:
+          gespeicherte_auswahl = st.session_state.answers[i]
+          if gespeicherte_auswahl == frage_data["antwort"]:
+              st.success(f"Robot: Richtig!!! Deine Antwort: {gespeicherte_auswahl}")
+              richtig += 1
+              st.session_state.resultate[i] = 1
+          else:
+              st.error(f"Robot: Falsch!!! Richtige Antwort wäre: {frage_data['antwort']}")
+              falsch += 1
+              st.session_state.resultate[i] = -1
+              
+      st.divider()
+
+  # Quiz-Schleife
+  for i, fragen in enumerate(quiz_py):
+      if i < anzahl_fragen:
+        optionen(i, fragen)
+
+  st.write("Du hast", richtig, "richtig von", len(quiz_py))
   
+  def chart():
+    df_1 = pd.DataFrame(
+        {
+            "Wert": ["richtig", "falsch"],
+            "Anzahl": [richtig, falsch],
+            "col3": ["#FA1414", "#21FF3A"],
+        }
+    )
 
-st.write("Du hast", richtig, "richtig von", len(quiz_py))
+    st.bar_chart(df_1, x="Wert", y="Anzahl", color="col3")
 
+    resultate = [r for r in st.session_state.resultate if r is not None]
 
-def chart():
-  df_1 = pd.DataFrame(
-      {
-          "Wert": ["richtig", "falsch"],
-          "Anzahl": [richtig, falsch],
-          "col3": ["#FA1414", "#21FF3A"],
-      }
-  )
+    df_2 = pd.DataFrame(
+        {
+            "richtig": resultate,
+        }
+    )
+    df_2["falsch"] = 1 - df_2["richtig"]
 
-  st.bar_chart(df_1, x="Wert", y="Anzahl", color="col3")
+    st.area_chart(df_2, color=["#21FF3A", "#FA1414"])
 
-  resultate = [r for r in st.session_state.resultate if r is not None]
+    st.line_chart(df_2, color=["#21FF3A", "#FA1414"])
 
-  df_2 = pd.DataFrame(
-      {
-          "richtig": resultate,
-      }
-  )
-  df_2["falsch"] = 1 - df_2["richtig"]
-
-  st.area_chart(df_2, color=["#21FF3A", "#FA1414"])
-
-  st.line_chart(df_2, color=["#21FF3A", "#FA1414"])
-
-if richtig or falsch > 0:
-  chart()
+  if richtig or falsch > 0:
+    chart()
+  st.divider()
