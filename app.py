@@ -47,9 +47,8 @@ with col3:
     st.page_link("pages/Würfel.py", label="🎲 Würfel")
     st.page_link("pages/Crash.py", label="💥 Crash")
 
+st.divider()
 
+url = "https://github.com/fhufijf/streamlit-webseite"
 
-
-
-#    st.write("geometredash")
-#    st.write("minecraft texturepack")
+st.link_button("Fhufijf's Github: ", url)
