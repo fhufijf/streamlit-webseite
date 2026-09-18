@@ -1,0 +1,22 @@
+{
+    "achievements_z\u00e4hler": 1,
+    "preis": 5,
+    "+2 BPk \ud83d\uddb1": false,
+    "kritischer_klick": 0,
+    "Baum \ud83c\udf33": false,
+    "Kritischer Klick": false,
+    "blatt": 42,
+    "klick": 3,
+    "upgrade": 1,
+    "preis_baum": 12,
+    "achievement_toggle": [
+        true,
+        false,
+        false,
+        false,
+        false,
+        false
+    ],
+    "kritischer_klick_preis": 5,
+    "preis_klicker": 5
+}

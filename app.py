@@ -19,7 +19,7 @@ with col1:
     st.subheader("Bald Architekt.")
 
 with col2:
-    st.image("https://avatars.githubusercontent.com/u/269984691?s=400&u=26258dc96717b93dd863bb2e14e099ebcbf2a043&v=4", caption="Niels' Github Profil")
+    st.image("images.png", caption="Niels' Github Profil")
 
 
 st.divider()
@@ -44,8 +44,10 @@ with col2:
 with col3:
     st.page_link("pages/Translator.py", label="🌍 Translator")
     st.page_link("pages/Karte.py", label="🗺️ Karte")
+    st.page_link("pages/Wetter.py", label="🌤️ Wetter")
     st.page_link("pages/Würfel.py", label="🎲 Würfel")
     st.page_link("pages/Crash.py", label="💥 Crash")
+    st.page_link("pages/Spiel.py", label="🎮 Spiel")
 
 st.divider()
 
